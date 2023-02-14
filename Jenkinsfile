@@ -1,9 +1,13 @@
 pipeline {
+
   agent {
     node {
       label 'jenkin-agent-alpine'
     }
 
+  }
+  environment{
+    dockerhub=credentials('dockerhub')
   }
   stages {
     stage('Build') {
@@ -15,7 +19,7 @@ pipeline {
     stage('login') {
       agent any
       steps {
-        sh 'docker login -u $DOCKERHUB_USER -p $DOCKERHUB_PASSWORD'
+        sh 'docker login -u $dockerhub_USR -p $dockerhub_PSW'
       }
     }
 
