@@ -1,13 +1,10 @@
 pipeline {
-
   agent {
-    node {
-      label 'jenkin-agent-alpine'
+    docker {
+      image 'docker:dind'
+      args '--privileged'
     }
 
-  }
-  environment{
-    dockerhub=credentials('dockerhub')
   }
   stages {
     stage('Build') {
@@ -30,5 +27,8 @@ pipeline {
       }
     }
 
+  }
+  environment {
+    dockerhub = credentials('dockerhub')
   }
 }
