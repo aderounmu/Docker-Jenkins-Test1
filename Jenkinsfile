@@ -16,7 +16,6 @@ pipeline {
     }
 
     stage('login') {
-      agent any
       steps {
         // sh 'docker login -u $dockerhub_USR -p $dockerhub_PSW'
         sh  'echo hello'
@@ -24,7 +23,6 @@ pipeline {
     }
 
     // stage('Push') {
-    //   agent any
     //   steps {
     //     // sh 'docker push mytest/flask_docker_test:latest'
     //   }
