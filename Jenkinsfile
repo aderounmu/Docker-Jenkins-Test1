@@ -3,18 +3,18 @@ pipeline {
   stages {
     stage('Test') {
       agent {
-        docker {
-          image 'python:3.8-alpine'
-          args '-u root:sudo -v $HOME/workspace/myproject:/myproject'
+        docker { 
+          image 'python:3.8-alpine' 
+          args '-u root:root -v $HOME/workspace/myproject:/myproject'
         }
 
       }
       steps {
         sh 'echo \'Testing\''
         sh 'python3 --version'
-        sh 'whoami'
-        sh 'pip install --user -r requirements.txt'
-        sh 'pytest'
+        sh 'pip freeze'
+        sh 'python3 -m pytest --version'
+        sh 'python -m pytest'
       }
     }
 
