@@ -27,49 +27,43 @@ pipeline {
       
     }
 
-    stage('Build and Push') {
+    stage('docker stages'){
       agent {
         docker {
             image 'docker:latest'
             args '-v /var/run/docker.sock:/var/run/docker.sock'
         }
+
       }
-      withEnv(["HOME=${env.WORKSPACE}"]){
-        steps {
-          sh 'docker --version'
-          sh 'docker build -t aderounmu/docker-flask:python:3.8-alpine .'
-          sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-          sh 'docker push aderounmu/docker-flask:python:3.8-alpine'
+
+      stages{
+        stage('Build') {
+          
+          withEnv(["HOME=${env.WORKSPACE}"]){
+            steps {
+              sh 'docker --version'
+              sh 'docker build -t aderounmu/docker-flask:python:3.8-alpine .'
+            }
+          }
+        }
+
+        stage('Login') {
+          
+          steps {
+            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+          }
+        }
+
+        stage('Push') {
+          
+          steps {
+            sh 'docker push aderounmu/docker-flask:python:3.8-alpine'
+          }
         }
       }
     }
 
-    // stage('Login') {
-    //   agent {
-
-    //     docker {
-    //         image 'docker:latest'
-    //         args '-v /var/run/docker.sock:/var/run/docker.sock'
-    //     }
-
-    //   }
-    //   steps {
-    //     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-    //   }
-    // }
-
-    // stage('Push') {
-    //   agent {
-    //     docker {
-    //         image 'docker:latest'
-    //         args '-v /var/run/docker.sock:/var/run/docker.sock'
-    //     }
-
-    //   }
-    //   steps {
-    //     sh 'docker push aderounmu/docker-flask:python:3.8-alpine'
-    //   }
-    // }
+    
 
   }
   post {
