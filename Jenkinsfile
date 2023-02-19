@@ -59,7 +59,7 @@ pipeline {
         stage('Push') {
           
           steps {
-            sh 'docker push aderounmu/docker-flask:python:3.8-alpine'
+            sh 'docker push aderounmu/docker-flask:python3.8-alpine'
           }
         }
       }
