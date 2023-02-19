@@ -13,13 +13,10 @@ pipeline {
       }
       steps {
         sh 'python3 --version'
-      }
-      steps {
         sh 'pip install -r requirements.txt'
-      }
-      steps {
         sh 'pytest'
       }
+
     }
     stage('Build') {
       agent {
@@ -30,9 +27,6 @@ pipeline {
       }
       steps {
         sh 'docker --version'
-      }
-
-      steps {
         sh 'docker build -t aderounmu/docker-flask:python:3.8-alpine .'
       }
     }
@@ -42,7 +36,6 @@ pipeline {
         node {
           label 'built-in'
         }
-
       }
       steps {
         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
@@ -62,14 +55,11 @@ pipeline {
 
   }
   post {
-    agent {
-      node {
-        label 'built-in'
-      }
-    }
     
     always {
-      sh 'docker logout'
+      node('built-in'){
+        sh 'docker logout'
+      }
     }
   }
   
