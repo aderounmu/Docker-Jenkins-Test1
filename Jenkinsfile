@@ -12,7 +12,7 @@ pipeline {
       steps {
         sh 'echo \'Testing\''
         sh 'python3 --version'
-        sh 'pip freeze'
+        sh 'pip install --user -r requirements.txt'
         sh 'python3 -m pytest --version'
         sh 'python -m pytest'
       }
