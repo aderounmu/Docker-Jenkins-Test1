@@ -1,7 +1,10 @@
 pipeline {
   agent none
+  environment {
+    DOCKERHUB_CREDENTIALS  = credentials('dockerhub')
+  }
   stages {
-    stage('Build') {
+    stage('Test') {
       agent {
         docker {
           image 'python:3.8-alpine'
@@ -11,16 +14,14 @@ pipeline {
       steps {
         sh 'python3 --version'
       }
-    }
-
-    stage('login') {
-      agent any
       steps {
-        sh 'echo hello'
+        sh 'pip install -r requirements.txt'
+      }
+      steps {
+        sh 'pytest'
       }
     }
-
-    stage('docker test') {
+    stage('Build') {
       agent {
         node {
           label 'built-in'
@@ -30,10 +31,46 @@ pipeline {
       steps {
         sh 'docker --version'
       }
+
+      steps {
+        sh 'docker build -t aderounmu/docker-flask:python:3.8-alpine .'
+      }
+    }
+
+    stage('Login') {
+      agent {
+        node {
+          label 'built-in'
+        }
+
+      }
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+      }
+    }
+
+    stage('Push') {
+      agent {
+        node {
+          label 'built-in'
+        }
+      }
+      steps {
+        sh 'docker push aderounmu/docker-flask:python:3.8-alpine'
+      }
     }
 
   }
-  environment {
-    dockerhub = credentials('dockerhub')
+  post {
+    agent {
+      node {
+        label 'built-in'
+      }
+    }
+    
+    always {
+      sh 'docker logout'
+    }
   }
+  
 }

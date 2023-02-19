@@ -1,5 +1,11 @@
+# 👾 CI / CD Pipeline for Jenkins using Docker 
 
+This is a CI/CD pipeline for docker using Jenkins , docker plugin 
 
-docker image build -t flask_docker_test .
+## Requirements
 
-docker run -p 5007:5000 -d flask_docker_test
+ * [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+ * [Jenkins](https://www.jenkins.io/doc/book/installing/)
+
+ 
