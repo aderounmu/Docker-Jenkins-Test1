@@ -33,16 +33,18 @@ pipeline {
             image 'docker:latest'
             args '-v /var/run/docker.sock:/var/run/docker.sock'
         }
-
       }
-      steps {
-        sh 'docker --version'
-        sh 'docker build -t aderounmu/docker-flask:python:3.8-alpine .'
+      withEnv(["HOME=${env.WORKSPACE}"]){
+        steps {
+          sh 'docker --version'
+          sh 'docker build -t aderounmu/docker-flask:python:3.8-alpine .'
+        }
       }
     }
 
     stage('Login') {
       agent {
+
         docker {
             image 'docker:latest'
             args '-v /var/run/docker.sock:/var/run/docker.sock'
