@@ -20,8 +20,9 @@ pipeline {
 
     stage('Build') {
       agent {
-        node {
-          label 'built-in'
+        docker {
+            image 'docker:latest'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
         }
 
       }
@@ -33,8 +34,9 @@ pipeline {
 
     stage('Login') {
       agent {
-        node {
-          label 'built-in'
+        docker {
+            image 'docker:latest'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
         }
 
       }
@@ -45,8 +47,9 @@ pipeline {
 
     stage('Push') {
       agent {
-        node {
-          label 'built-in'
+        docker {
+            image 'docker:latest'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
         }
 
       }
@@ -64,7 +67,6 @@ pipeline {
       node('built-in') {
         sh 'docker logout'
       }
-
     }
 
   }
