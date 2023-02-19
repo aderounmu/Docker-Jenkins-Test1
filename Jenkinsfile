@@ -5,6 +5,7 @@ pipeline {
       agent {
         docker {
           image 'python:3.8-alpine'
+          args '-u root:sudo -v $HOME/workspace/myproject:/myproject'
         }
 
       }
@@ -61,7 +62,10 @@ pipeline {
       node('built-in') {
         sh 'docker logout'
       }
+    }
 
+    cleanup {
+      deleteDir()
     }
 
   }
