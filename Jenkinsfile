@@ -52,10 +52,9 @@ pipeline {
         sh 'docker push aderounmu/docker-flask:python:3.8-alpine'
       }
     }
-
   }
   post {
-    
+
     always {
       node('built-in'){
         sh 'docker logout'
