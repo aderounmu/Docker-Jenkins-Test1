@@ -18,7 +18,7 @@ pipeline {
         sh 'pip install --user -r requirements.txt'
         sh 'python3 -m pytest --version'
         sh 'python -m pytest'
-        // sh 'ls -l'
+        sh 'ls -l'
         // sh 'find . -name \'__pycache__\' | grep -v \'__pycache__/$\' | xargs rm -rf'
       }
       
