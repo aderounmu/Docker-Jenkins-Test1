@@ -65,9 +65,6 @@ pipeline {
       }
     }
 
-    cleanup {
-      deleteDir()
-    }
 
   }
 }
