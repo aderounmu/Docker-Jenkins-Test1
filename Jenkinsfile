@@ -1,5 +1,8 @@
 pipeline {
   agent none
+    environment {
+      DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    }
   stages {
     stage('Test') {
       agent {
@@ -58,9 +61,6 @@ pipeline {
       }
     }
 
-  }
-  environment {
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
   }
   post {
     always {
