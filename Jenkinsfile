@@ -10,6 +10,7 @@ pipeline {
 
       }
       steps {
+        sh 'echo \'Testing\''
         sh 'python3 --version'
         sh 'whoami'
         sh 'pip install --user -r requirements.txt'
@@ -63,6 +64,8 @@ pipeline {
       node('built-in') {
         sh 'docker logout'
       }
+
     }
+
   }
 }
