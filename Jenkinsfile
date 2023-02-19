@@ -1,8 +1,5 @@
 pipeline {
   agent none
-  environment {
-    DOCKERHUB_CREDENTIALS  = credentials('dockerhub')
-  }
   stages {
     stage('Test') {
       agent {
@@ -13,11 +10,11 @@ pipeline {
       }
       steps {
         sh 'python3 --version'
-        sh 'pip install -r requirements.txt'
+        sh 'pip install --user -r requirements.txt'
         sh 'pytest'
       }
-
     }
+
     stage('Build') {
       agent {
         node {
@@ -36,6 +33,7 @@ pipeline {
         node {
           label 'built-in'
         }
+
       }
       steps {
         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
@@ -47,19 +45,24 @@ pipeline {
         node {
           label 'built-in'
         }
+
       }
       steps {
         sh 'docker push aderounmu/docker-flask:python:3.8-alpine'
       }
     }
+
+  }
+  environment {
+    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
   }
   post {
-
     always {
-      node('built-in'){
+      node('built-in') {
         sh 'docker logout'
       }
+
     }
+
   }
-  
 }
