@@ -10,7 +10,7 @@ pipeline {
       }
       steps {
         sh 'python3 --version'
-        sh 'sh \'whoami\''
+        sh 'whoami'
         sh 'pip install --user -r requirements.txt'
         sh 'pytest'
       }
