@@ -44,7 +44,7 @@ pipeline {
           steps {
             withEnv(["HOME=${env.WORKSPACE}"]){
               sh 'docker --version'
-              sh 'docker build -t aderounmu/docker-flask:python:3.8-alpine .'
+              sh 'docker build -t aderounmu/docker-flask:python3.8-alpine .'
             }
           }
         }
