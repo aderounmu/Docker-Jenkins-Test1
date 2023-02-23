@@ -21,7 +21,7 @@ To get started with this project, you will need to:
 
 - Copy code
     ```bash
-    git clone https://github.com/your-username/your-repo.git
+    git clone https://github.com/aderounmu/Docker-Jenkins-Test1.git
     ```
 - Set up a Jenkins pipeline using the Jenkinsfile in the root directory of the project.
     - You may need to configure Jenkins to use Docker and other plugins needed for the pipeline.
